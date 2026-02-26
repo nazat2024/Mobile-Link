@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Link - Setup Guide</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --secondary: #8b5cf6;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #020617, var(--bg-dark));
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Language Toggle Switch */
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            display: flex;
+            padding: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Language Display Logic */
+        [lang="en"] .bn-text { display: none !important; }
+        [lang="bn"] .en-text { display: none !important; }
+
+        .container {
+            max-width: 850px;
+            width: 90%;
+            margin: 80px auto 40px auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        /* Main Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 12px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .tab-btn.active {
+            background: rgba(14, 165, 233, 0.2);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Guide Sections */
+        .guide-section { 
+            display: none; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
+        
+        .guide-section.active { 
+            display: flex; 
+            animation: safeFadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes safeFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(14, 165, 233, 0.5);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(139, 92, 246, 0.2));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            margin-top: 5px;
+        }
+
+        .content { width: 100%; }
+        .content h2 { margin: 0 0 8px 0; font-size: 1.3rem; color: #fff; }
+        .content p { margin: 0; color: var(--text-muted); line-height: 1.6; font-size: 1.05rem; }
+        .highlight { color: var(--primary); font-weight: bold; }
+        
+        /* Version Split Box */
+        .version-box {
+            background: rgba(0,0,0,0.2);
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .version-box h3 { margin: 0 0 5px 0; color: #fff; font-size: 1.1rem; }
+
+        /* Image Gallery */
+        .img-gallery {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .img-gallery::-webkit-scrollbar { height: 6px; }
+        .img-gallery::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        .img-gallery::-webkit-scrollbar-thumb { background: rgba(14, 165, 233, 0.5); border-radius: 10px; }
+
+        .img-gallery img {
+            height: 220px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .img-gallery img:hover { transform: scale(1.03); border-color: var(--primary); }
+
+        .footer-note {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .note-magic {
+            border: 1px dashed #10b981; 
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .footer-note span { font-size: 1.5rem; }
+        .footer-note div p { margin: 0; color: #fff; line-height: 1.5; }
+
+        /* NEW: Manual Divider */
+        .manual-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 15px 0 5px 0;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .manual-divider::before, .manual-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.15);
+            margin: 0 15px;
+        }
+
+        /* Developer Info Section */
+        .developer-info {
+            margin-top: 50px;
+            padding: 25px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            color: var(--text-muted);
+            backdrop-filter: blur(10px);
+        }
+
+        .developer-info h3 {
+            color: var(--primary);
+            margin: 0 0 15px 0;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .developer-info p { margin: 5px 0; font-size: 1.05rem; }
+        
+        .developer-info a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .developer-info a:hover { color: var(--primary); text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            .step-card { flex-direction: column; text-align: center; align-items: center; padding: 20px 15px; }
+            .img-gallery { justify-content: flex-start; width: 100%; }
+            .header h1 { font-size: 2rem; }
+            .lang-switch { top: 10px; right: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lang-switch">
+        <button class="lang-btn active" id="btn-en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" id="btn-bn" onclick="setLanguage('bn')">BN</button>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="en-text">Mobile Link Setup</h1>
+            <h1 class="bn-text">Mobile Link সেটআপ গাইড</h1>
+            <p class="en-text">Follow these simple steps to connect your phone to PC.</p>
+            <p class="bn-text">আপনার ফোন পিসির সাথে যুক্ত করতে এই সহজ ধাপগুলো অনুসরণ করুন।</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" id="tab-btn-usb" onclick="setTab('usb')">
+                <span class="en-text">USB Connection</span>
+                <span class="bn-text">USB সংযোগ নিয়ম</span>
+            </button>
+            <button class="tab-btn" id="tab-btn-wifi" onclick="setTab('wifi')">
+                <span class="en-text">Wireless Connection</span>
+                <span class="bn-text">ওয়্যারলেস সংযোগ নিয়ম</span>
+            </button>
+        </div>
+
+        <div id="usb-guide" class="guide-section active">
+            
+            <div class="step-card">
+                <div class="icon-box">⚙️</div>
+                <div class="content">
+                    <h2 class="en-text">Step 1: Unlock Developer Mode</h2>
+                    <h2 class="bn-text">ধাপ ১: ডেভেলপার মোড আনলক করুন</h2>
+                    <p class="en-text">Open your phone's <b>Settings</b>. Go to <span class="highlight">My Phone / About Phone</span>. Find the <b>Build Number</b> and tap on it rapidly <b>7 times</b>.</p>
+                    <p class="bn-text">আপনার ফোনের <b>Settings</b> ওপেন করে <span class="highlight">My Phone / About Phone</span>-এ যান। সেখানে <b>Build Number</b> লেখাটির ওপর দ্রুত <b>৭ বার ট্যাপ করুন</b>।</p>
+                    <div class="img-gallery">
+                        <img src="1.jpg" alt="Settings Menu">
+                        <img src="2.jpg" alt="Version Info">
+                        <img src="3.jpg" alt="Build Number Tap">
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="icon-box">🔌</div>
+                <div class="content">
+                    <h2 class="en-text">Step 2: Enable USB Debugging</h2>
+                    <h2 class="bn-text">ধাপ ২: USB Debugging চালু করুন</h2>
+                    <p class="en-text">Go back to Settings. Navigate to <span class="highlight">System > Developer Options</span> and turn on <b>USB Debugging</b>.</p>
+                    <p class="bn-text">Settings এর মূল মেনুতে ফিরে আসুন। <span class="highlight">System > Developer Options</span>-এ প্রবেশ করে <b>USB Debugging</b> অপশনটি চালু করে দিন।</p>
+                    <div class="img-gallery">
+                        <img src="4.jpg" alt="System Settings">
+                        <img src="5.jpg" alt="Developer Options">
+                        <img src="6.jpg" alt="USB Debugging">
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="icon-box">💻</div>
+                <div class="content">
+                    <h2 class="en-text">Step 3: Connect to Dashboard</h2>
+                    <h2 class="bn-text">ধাপ ৩: ড্যাশবোর্ড থেকে কানেক্ট করুন</h2>
+                    <p class="en-text">Connect your phone to the PC via USB cable. Open the Mobile Link app. When the green <b>Connect via USB</b> button appears, click it!</p>
+                    <p class="bn-text">USB ক্যাবল দিয়ে ফোনটি পিসিতে লাগান (ফোনে পারমিশন চাইলে Allow দিন)। এরপর পিসিতে অ্যাপটি ওপেন করুন। সবুজ রঙের <b>Connect via USB</b> বাটনটি আসলে সেটিতে ক্লিক করুন!</p>
+                    <div class="img-gallery">
+                        <img src="14.png" alt="Desktop Shortcut">
+                        <img src="19.png" alt="App Dashboard">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="wifi-guide" class="guide-section">
+            
+            <div class="footer-note note-magic">
+                <span>🪄</span>
+                <div>
+                    <p class="en-text"><b>Magic Tip:</b> You don't need to do any manual steps! Just connect your phone via USB cable once while the app is open. The app will magically scan and auto-fill your IP and Port. Then unplug the cable and click <b>Connect Wirelessly!</b></p>
+                    <p class="bn-text"><b>ম্যাজিক টিপস:</b> আপনাকে ম্যানুয়ালি কোনো ধাপ করতে হবে না! অ্যাপটি ওপেন থাকা অবস্থায় শুধু একবার পিসিতে ক্যাবল লাগান। অ্যাপ নিজেই ম্যাজিকের মতো আপনার আইপি আর পোর্ট বক্সে বসিয়ে দেবে! এরপর ক্যাবল খুলে <b>Connect Wirelessly</b>-তে ক্লিক করলেই কানেক্ট হয়ে যাবে।</p>
+                </div>
+            </div>
+
+            <div class="manual-divider">
+                <span class="en-text">Or Use Manual Setup Method</span>
+                <span class="bn-text">অথবা ম্যানুয়াল পদ্ধতি ব্যবহার করুন</span>
+            </div>
+
+            <div class="step-card">
+                <div class="icon-box">📶</div>
+                <div class="content">
+                    <h2 class="en-text">Step 1: Same Wi-Fi Network</h2>
+                    <h2 class="bn-text">ধাপ ১: একই Wi-Fi (ম্যানুয়াল পদ্ধতি)</h2>
+                    <p class="en-text">Ensure your Phone and PC are connected to the <span class="highlight">Same Wi-Fi Network</span>.</p>
+                    <p class="bn-text">নিশ্চিত করুন যে আপনার পিসি এবং ফোন দুটিই <span class="highlight">একই Wi-Fi নেটওয়ার্কের</span> সাথে যুক্ত আছে।</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="icon-box">🔎</div>
+                <div class="content">
+                    <h2 class="en-text">Step 2: Find IP and Port (Based on your Android version)</h2>
+                    <h2 class="bn-text">ধাপ ২: আইপি ও পোর্ট খুঁজুন (আপনার ভার্সন অনুযায়ী)</h2>
+                    
+                    <div class="version-box">
+                        <h3 class="en-text">📱 For Android 11 and Above:</h3>
+                        <h3 class="bn-text">📱 Android 11 বা তার উপরের জন্য:</h3>
+                        <p class="en-text">Go to <b>Developer Options > Wireless Debugging</b>. Turn it on and click on it. You will find your <span class="highlight">IP address & Port</span> there.</p>
+                        <p class="bn-text"><b>Developer Options > Wireless Debugging</b> এ যান। এটি চালু করে লেখার উপর ক্লিক করুন। ভেতরে আপনার <span class="highlight">IP address ও Port</span> নম্বরটি দেখতে পাবেন।</p>
+                        <div class="img-gallery">
+                            <img src="13.jpg" alt="Wireless Debug Port">
+                        </div>
+                    </div>
+
+                    <div class="version-box">
+                        <h3 class="en-text">⚙️ For Android 10 and Below:</h3>
+                        <h3 class="bn-text">⚙️ Android 10 বা তার নিচের জন্য:</h3>
+                        <p class="en-text">Go to <b>Settings > Wi-Fi</b>, tap your connected network to see your <span class="highlight">IP Address</span>.<br><br><b>How to get the Port?</b> You don't need to type it! Just connect your phone via <b>USB cable</b> once while the app is open. The app will automatically generate and fill a secure port for you!</p>
+                        <p class="bn-text"><b>Settings > Wi-Fi</b> এ গিয়ে আপনার কানেক্টেড ওয়াইফাইয়ের নামের উপর ক্লিক করুন। সেখানে আপনার <span class="highlight">IP Address</span> টি দেখতে পাবেন।<br><br><b>পোর্ট কীভাবে পাবেন?</b> আপনাকে পোর্ট টাইপ করতে হবে না! অ্যাপটি ওপেন রেখে শুধু একবার <b>USB ক্যাবল</b> দিয়ে ফোনটি পিসিতে লাগান। অ্যাপ নিজেই একটি সুরক্ষিত পোর্ট তৈরি করে বক্সে বসিয়ে দেবে!</p>
+                        <div class="img-gallery">
+                            <img src="16.jpg" alt="Wi-Fi Settings">
+                            <img src="17.jpg" alt="Connected Wi-Fi">
+                            <img src="18.jpg" alt="IP Address Details">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="icon-box">🚀</div>
+                <div class="content">
+                    <h2 class="en-text">Step 3: Connect Wirelessly</h2>
+                    <h2 class="bn-text">ধাপ ৩: ওয়্যারলেস কানেক্ট করুন</h2>
+                    <p class="en-text">Make sure the IP and Port boxes are filled (use the USB magic trick for auto-fill), unplug the USB cable if connected, and click the blue <b>Connect Wirelessly</b> button.</p>
+                    <p class="bn-text">নিশ্চিত করুন আইপি এবং পোর্ট বক্সে বসানো আছে (সহজ উপায়ের জন্য USB ম্যাজিক টিপসটি ব্যবহার করুন)। এরপর ক্যাবল খুলে ফেলুন এবং নীল রঙের <b>Connect Wirelessly</b> বাটনে ক্লিক করুন। ব্যাস, কাজ শেষ!</p>
+                    <div class="img-gallery">
+                        <img src="19.png" alt="App GUI showing Wi-Fi input">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="developer-info">
+            <h3 class="en-text">Developed By</h3>
+            <h3 class="bn-text">ডেভেলপার পরিচিতি</h3>
+            <p><strong>Md. Mustafizur Rahman Nazat</strong></p>
+            <p>Kushtia, Bangladesh</p>
+            <p>Email: <a href="mailto:nazat787@gmail.com">nazat787@gmail.com</a></p>
+            <p>Facebook: <a href="https://www.facebook.com/profile.php?id=100060463920821" target="_blank">Md. Mustafizur Rahman Nazat</a></p>
+        </div>
+
+    </div>
+
+    <script>
+        function setLanguage(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            document.getElementById('btn-en').classList.remove('active');
+            document.getElementById('btn-bn').classList.remove('active');
+            document.getElementById('btn-' + lang).classList.add('active');
+        }
+
+        function setTab(tabId) {
+            document.querySelectorAll('.guide-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            document.getElementById('tab-btn-usb').classList.remove('active');
+            document.getElementById('tab-btn-wifi').classList.remove('active');
+
+            document.getElementById(tabId + '-guide').classList.add('active');
+            document.getElementById('tab-btn-' + tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
