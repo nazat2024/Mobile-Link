@@ -46,6 +46,8 @@
 
 ## 📸 Screenshots
 *(Note: You can drag and drop your dashboard screenshots here later to show off your UI!)*
+<img width="448" height="768" alt="Screenshot 2026-02-26 075637" src="https://github.com/user-attachments/assets/8ad196d8-a885-4055-9d8c-32ecb7397c9d" />
+<img width="438" height="766" alt="Screenshot 2026-02-26 075648" src="https://github.com/user-attachments/assets/d34b2b21-51d4-47f1-a61c-3396bae3ca91" />
 
 ---
 
