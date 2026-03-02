@@ -45,8 +45,9 @@
 ---
 
 ## 📸 Screenshots
-<img width="448" height="768" alt="Screenshot 2026-02-26 075637" src="https://github.com/user-attachments/assets/8ad196d8-a885-4055-9d8c-32ecb7397c9d" />
-<img width="438" height="766" alt="Screenshot 2026-02-26 075648" src="https://github.com/user-attachments/assets/d34b2b21-51d4-47f1-a61c-3396bae3ca91" />
+<img width="1136" height="794" alt="Screenshot 2026-03-02 055909" src="https://github.com/user-attachments/assets/7a26151e-593f-4626-9c39-03ce7a994fc5" />
+
+<img width="1139" height="795" alt="Screenshot 2026-03-02 055820" src="https://github.com/user-attachments/assets/097f9f4d-3f71-4374-b740-e9946c8d0193" />
 
 ---
 
